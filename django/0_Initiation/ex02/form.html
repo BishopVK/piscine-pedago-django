@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ex02</title>
+</head>
+<body>
+	<!-- <form onsubmit="displayFormContents(); return false;"> -->
+	<form>
+		<label for="firstname">First name:</label><br>
+		<input type="text" id="firstname" name="firstname" placeholder="John" required><br><br>
+
+		<label for="name">Name:</label><br>
+		<input type="text" id="name" name="name" placeholder="Doe" required><br><br>
+
+		<label for="age">Age <small>(between 1 and 100)</small>:</label><br>
+		<input type="number" id="age" name="age" min="1" max="100" placeholder="1 - 100" required><br><br>
+
+		<label for="phone">Enter your phone number:</label><br>
+		<input type="tel" id="phone" name="phone" placeholder="600123456" required><br><br>
+
+		<label for="email">Enter your email:</label><br>
+		<input type="email" id="email" name="email" required><br><br>
+
+		<input type="checkbox" id="student" name="student" value="student">
+		<label for="student">Student at 42?</label><br><br>
+
+		<input type="radio" id="gender_male" name="gender" value="male" checked>
+		<label for="gender_male">Male</label><br>
+		<input type="radio" id="gender_female" name="gender" value="female">
+		<label for="gender_female">Female</label><br>
+		<input type="radio" id="gender_other" name="gender" value="other">
+		<label for="gender_other">Other</label><br><br>
+
+		<input type="submit" value="submit" onclick="displayFormContents();">
+	</form>
+
+	<script src="../d00/ex02/popup.js"></script>
+</body>
+</html>
