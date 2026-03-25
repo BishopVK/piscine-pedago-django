@@ -16,7 +16,7 @@ capital_cities = {
 
 def check_argv():
     if len(sys.argv) != 2:
-        return
+        exit (1)
 
     # strip() -> remove spaces before and after a string (like trim in C)
     # casefold() -> normalize to avoid case sensitive
@@ -30,7 +30,7 @@ def check_argv():
     if cleaned:
         return cleaned
     else:
-        exit()
+        exit(0)
 
 def find_capital(arg):
     # print(">>Finding in capitals...<<")
@@ -62,8 +62,12 @@ def find_state(args):
             find_capital(arg)
 
 def all_in():
-    args = check_argv()
-    find_state(args)
+    try:
+        args = check_argv()
+        find_state(args)
+    except Exception as e:
+        if str(e):
+            print(f"Error: {e}")
 
 if __name__ == "__main__":
     all_in()
