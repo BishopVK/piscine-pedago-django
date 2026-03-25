@@ -19,22 +19,33 @@ def my_sort():
         'White' : '1975',
         'Frusciante': '1970',
         'Thompson' : '1949',
-        'Burton' : '1939',
+        'Burton' : '1939'
     }
     """ for name, year in d.items():
         print(f"{name} nació en {year}") """
     
 
-    ordenado_por_valor = dict(sorted(d.items(), key=lambda item: int(item[1])))
-    print(ordenado_por_valor)
+    """ ordenado_por_valor = dict(sorted(d.items(), key=lambda item: int(item[1])))
+    print(ordenado_por_valor) """
 
     # swapped_dict = {value: key for key, value in d.items()}
     # print(swapped_dict)
 
     # my_dict2 = {y: x for x, y in d.items()}
     # print(my_dict2)
+
+    # Ordenar por (año, nombre)
+    sorted_items = sorted(d.items(), key=lambda item: (int(item[1]), item[0]))
+
+    # Imprimir solo los nombres
+    for name, _ in sorted_items:
+        print(name)
    
 
 
 if __name__ ==  "__main__":
-    my_sort()
+    try:
+        my_sort()
+    except Exception as e:
+        if str(e):
+            print(f"Error: {e}")
