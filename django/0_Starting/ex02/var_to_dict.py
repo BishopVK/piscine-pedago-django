@@ -26,12 +26,12 @@ def var_to_dict():
 
     # Agrupar por año
     for nombre, anio in d:
-        if int(anio) not in dictionary:
+        if anio not in dictionary:
             dictionary[anio] = []
         dictionary[anio].append(nombre)
 
-    # Imprimir ordenado (descendente)
-    for anio in sorted(dictionary, reverse=True):
+    # Imprimir
+    for anio in dictionary:
         nombres = " ".join(dictionary[anio])
         print(f"{anio} : {nombres}")
 
