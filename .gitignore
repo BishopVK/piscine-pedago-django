@@ -2,6 +2,7 @@
 *.pdf
 
 # folders
-d00
-d01
-documentation
+d00/
+d01/
+documentation/
+__pycache__/
