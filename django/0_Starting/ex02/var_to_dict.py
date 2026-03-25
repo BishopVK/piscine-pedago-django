@@ -26,7 +26,7 @@ def var_to_dict():
 
     # Agrupar por año
     for nombre, anio in d:
-        if anio not in dictionary:
+        if int(anio) not in dictionary:
             dictionary[anio] = []
         dictionary[anio].append(nombre)
 
@@ -36,4 +36,8 @@ def var_to_dict():
         print(f"{anio} : {nombres}")
 
 if __name__ == "__main__":
-    var_to_dict()
+    try:
+        var_to_dict()
+    except Exception as e:
+        if str(e):
+            print(f"Error: {e}")
