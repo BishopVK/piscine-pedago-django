@@ -7,19 +7,19 @@ def render():
     # 1. Gestión de errores de argumentos
     if len(sys.argv) != 2:
         print("Error: El programa necesita exactamente un argumento.")
-        return
+        exit(1)
 
     template_name = sys.argv[1]
 
     # 2. Gestión de error: Extensión incorrecta
     if not template_name.endswith(".template"):
         print("Error: El archivo debe tener la extensión '.template'")
-        return
+        exit(1)
 
     # 3. Gestión de error: Archivo no existe
     if not os.path.exists(template_name):
         print(f"Error: El archivo '{template_name}' no existe.")
-        return
+        exit(1)
 
     try:
         # 4. Leer el contenido de la plantilla
