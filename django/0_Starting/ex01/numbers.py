@@ -9,4 +9,8 @@ def split_numbers():
 
 
 if __name__ == "__main__":
-    split_numbers()
+    try:
+        split_numbers()
+    except Exception as e:
+        if str(e):
+            print(f"Error: {e}")
