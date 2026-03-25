@@ -36,8 +36,4 @@ def var_to_dict():
         print(f"{anio} : {nombres}")
 
 if __name__ == "__main__":
-    try:
-        var_to_dict()
-    except Exception as e:
-        if str(e):
-            print(f"Error: {e}")
+    var_to_dict()
