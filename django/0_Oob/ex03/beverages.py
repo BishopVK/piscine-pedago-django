@@ -31,6 +31,7 @@ class Cappuccino(HotBeverage):
     desc = "Un po’ di Italia nella sua tazza!"
 
 
+
 if __name__ == "__main__":
     hotBeverage = HotBeverage()
     coffee = Coffee()
