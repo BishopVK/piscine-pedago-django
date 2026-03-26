@@ -1,5 +1,7 @@
+#files
 *.tar.gz
 *.pdf
+tmp
 
 # folders
 d00/
