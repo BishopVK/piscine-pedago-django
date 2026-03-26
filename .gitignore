@@ -4,7 +4,6 @@
 tmp
 
 # folders
-d00/
-d01/
+d0*/
 documentation/
 __pycache__/
