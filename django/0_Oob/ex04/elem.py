@@ -12,7 +12,9 @@ class Text(str):
         """
         Do you really need a comment to understand this method?..
         """
-        return super().__str__().replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;').replace('foo\nbar', 'foo\n<br />\nbar').replace('\n', '\n<br />\n')
+        # Escapamos primero los caracteres y luego aplicamos el salto de línea <br />
+        content =  super().__str__().replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;')
+        return content.replace('\n', '\n<br />\n')
         # [...]
 
 
@@ -21,7 +23,7 @@ class Elem:
     Elem will permit us to represent our HTML elements.
     """
     # [...]
-    def ValidationError(Exception):
+    class ValidationError(Exception):
         pass
 
     def __init__(self, tag='div', attr={}, content=None, tag_type='double'):
@@ -32,9 +34,20 @@ class Elem:
         """
         # [...]
         self.tag = tag
-        self.attr = {}
-        self.content = content
+        self.attr = attr if attr is not None else {}
         self.tag_type = tag_type
+        # self.content = content
+
+        # Validar y formatear el contenido inicial
+        if content is not None and not self.check_type(content):
+            raise self.ValidationError
+        
+        if content is None:
+            self.content = []
+        elif isinstance(content, list):
+            self.content = [c for c in content if c != Text('')]
+        else:
+            self.content = [content] if content != Text('') else []
 
     def __str__(self):
         """
@@ -44,7 +57,7 @@ class Elem:
         elements...).
         """
         attr = self.__make_attr()
-        result = "{tag}{attr}".format(tag=self.tag, attr=attr)
+        result = "<{tag}{attr}".format(tag=self.tag, attr=attr)
         if self.tag_type == 'double':
             # [...]
             result += ">{content}</{tag}>".format(content=self.__make_content(), tag=self.tag)
@@ -69,10 +82,15 @@ class Elem:
 
         if len(self.content) == 0:
             return ''
-        result = '\n'
+        result = ''
         for elem in self.content:
-            result += [...]
-        return result
+            # Convertimos el elemento a string
+            content_str = str(elem)
+            # Para cada línea del contenido, le añadimos 2 espacios de sangría
+            formatted_lines = content_str.replace('\n', '\n  ')
+            result += f"\n  {formatted_lines}"
+            # result += [...]
+        return result + '\n'
 
     def add_content(self, content):
         if not Elem.check_type(content):
@@ -95,4 +113,12 @@ class Elem:
 
 
 if __name__ == '__main__':
-    [...]
+    # [...]
+    html = Elem('html', content=[
+        Elem('head', content=Elem('title', content=Text('"Hello ground!"'))),
+        Elem('body', content=[
+            Elem('h1', content=Text('"Oh no, not again!"')),
+            Elem('img', attr={'src': 'http://i.imgur.com/pfp3T.jpg'}, tag_type='simple')
+        ])
+    ])
+    print(html)
