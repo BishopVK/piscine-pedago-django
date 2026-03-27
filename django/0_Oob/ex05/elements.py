@@ -1,5 +1,13 @@
 from elem import Elem, Text
 
+def colours():
+    cyan = "\x1b[36m"
+    reset = "\x1b[37m"
+    return cyan, reset
+
+def title(num):
+    return f"\n--- TEST {str(num)} ---\n"
+
 class Html(Elem):
     def __init__(self, content=None, attr=None):
         super().__init__(tag = 'html', attr=attr, content=content, tag_type='double')
@@ -80,18 +88,31 @@ class Br(Elem):
     def __init__(self, attr=None):
         super().__init__(tag = 'br', attr=attr, content=None, tag_type='simple')
 
-if __name__ == "__main__":
-    html1 = Html([Head(), Body()])
-    print(html1)
+def test1():
+    c, r = colours()
+    print(f"{c}{title(1)}{r}")
+    html =  Html([
+                    Head(),
+                    Body()
+                ])
+    print(html)
 
-    print("\n---\n")
+def test2():
+    c, r = colours()
+    print(f"{c}{title(2)}{r}")
+    html =  Html([
+                Head(Title(Text('"Hello ground!"'))),
+                Body([
+                    H1(Text('"Oh no, not again!"')),
+                    Img({"src" : "http://i.imgur.com/pfp3T.jpg"})
+                ])
+            ])
+    print(html)
 
-    html2 = Html([Head(Title(Text('"Hello ground!"'))), Body([H1(Text('"Oh no, not again!"')), Img({"src" : "http://i.imgur.com/pfp3T.jpg"})])])
-    print(html2)
-
-    print("\n---\n")
-
-    html3 = Html([
+def test3():
+    c, r = colours()
+    print(f"{c}{title(3)}{r}")
+    html =  Html([
                 Head([
                     Title(Text('"Hello ground!"')),
                     Meta({"charset" : "utf-8"}),
@@ -142,4 +163,9 @@ if __name__ == "__main__":
                     Img({"src" : "http://i.imgur.com/pfp3T.jpg"})
                 ])
             ])
-    print(html3)
+    print(html)
+
+if __name__ == "__main__":
+    test1()
+    test2()
+    test3()
