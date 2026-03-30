@@ -1,4 +1,5 @@
 import sys
+import antigravity
 
 # input → string → md5 → dividir → convertir → normalizar → sumar
 
@@ -67,6 +68,11 @@ def check_dow_jones():
     
     return str(dow)
 
+def md5_hexdigest(s: str) -> str:
+    h = __import__("hashlib").md5()
+    h.update(s.encode() if isinstance(s, str) else s)
+    return h.hexdigest()
+
 def check_args():
     color = colors()
 
@@ -85,7 +91,8 @@ def check_args():
 
 def geohashing():
     check_args()
-    print("HOOLA!")
+    print("HOOLA!") # DB
+    print(md5_hexdigest("HOOLA!")) # DB
     """
     """
 
