@@ -64,7 +64,7 @@ def check_dow_jones():
             raise Exception("Dow Jones Industrial Average must be a float")
 
     if dow < 10000 or dow > 50000:
-        raise Exception("Dow jones out of ranges (10.000 - 50.000)")
+        raise Exception("Dow jones out of ranges (10000 - 50000)")
     
     return str(dow)
 
