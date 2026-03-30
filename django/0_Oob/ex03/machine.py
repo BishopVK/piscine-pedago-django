@@ -21,9 +21,9 @@ class CoffeeMachine:
         if self.counter >= 10:
             raise self.BrokenMachineException()
 
-        serve = random.choice([drink, self.EmptyCup])
+        result = random.choice([drink, self.EmptyCup])
         self.counter += 1
-        return serve()
+        return result()
 
 
 if __name__ == "__main__":
@@ -41,12 +41,12 @@ if __name__ == "__main__":
             print(coffee_machine.serve(random.choice(drink_list)))
         except Exception as e:
             if str(e):
-                print(f"\x1b[31mError:\x1b[37m {e}")
+                print("\x1b[31m" + "Error: " + "\x1b[37m" + f"{e}")
         print(f"Served drinks: {coffee_machine.counter}")
         print("---")
 
     coffee_machine.repair()
-    print("\x1b[36mCoffee machine was repaired\x1b[37m")
+    print("\x1b[36m" + "Coffee machine was repaired" + "\x1b[37m")
     print("---")
 
 
@@ -55,8 +55,6 @@ if __name__ == "__main__":
             print(coffee_machine.serve(random.choice(drink_list)))
         except Exception as e:
             if str(e):
-                print(f"\x1b[31mError:\x1b[37m {e}")
+                print("\x1b[31m" + "Error: " + "\x1b[37m" + f"{e}")
         print(f"Served drinks: {coffee_machine.counter}")
         print("---")
-
-
