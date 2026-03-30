@@ -1,6 +1,6 @@
 from elem import Elem, Text
 
-def colours():
+def colors():
     cyan = "\x1b[36m"
     reset = "\x1b[37m"
     return cyan, reset
@@ -89,7 +89,7 @@ class Br(Elem):
         super().__init__(tag = 'br', attr=attr, content=None, tag_type='simple')
 
 def test1():
-    c, r = colours()
+    c, r = colors()
     print(f"{c}{title(1)}{r}")
     html =  Html([
                     Head(),
@@ -98,7 +98,7 @@ def test1():
     print(html)
 
 def test2():
-    c, r = colours()
+    c, r = colors()
     print(f"{c}{title(2)}{r}")
     html =  Html([
                 Head(Title(Text('"Hello ground!"'))),
@@ -110,7 +110,7 @@ def test2():
     print(html)
 
 def test3():
-    c, r = colours()
+    c, r = colors()
     print(f"{c}{title(3)}{r}")
     html =  Html([
                 Head([
