@@ -16,7 +16,12 @@ def render():
         print("Error: El archivo debe tener la extensión '.template'")
         exit(1)
 
-    # 3. Gestión de error: Archivo no existe
+    # 3. Gestionar archivo oculto .template
+    if len(template_name) <= 9:
+        print("Error: El archivo debe un nombre")
+        exit(1)
+
+    # 4. Gestión de error: Archivo no existe
     if not os.path.exists(template_name):
         print(f"Error: El archivo '{template_name}' no existe.")
         exit(1)
