@@ -51,10 +51,16 @@ def check_coords():
     if (lat < -90 or lat > 90) or (lon < -180 or lon > 180):
         raise Exception("Latitude (-90 - 90) or Longitude (-180 - 180) out of range")
         
-    return str(lat), str(lon)
-
+    return lat, lon
 
 def check_dow_jones():
+    """
+    docstring: Valida si la cifra recibida es correcta (__doc__)
+    Parameters:
+        example: uso de example
+    Returns:
+        dow validado
+    """
     dow = sys.argv[4]
 
     try:
@@ -68,10 +74,13 @@ def check_dow_jones():
     
     return str(dow)
 
-def md5_hexdigest(s: str) -> str:
-    h = __import__("hashlib").md5()
-    h.update(s.encode() if isinstance(s, str) else s)
-    return h.hexdigest()
+def concatenate_date_dow():
+    """
+    """
+    date = sys.argv[1]
+    dow = sys.argv[4]
+
+    return f"{date}-{dow}".encode()
 
 def check_args():
     color = colors()
@@ -88,13 +97,14 @@ def check_args():
     y, m, d = check_date_format()
     lat, lon = check_coords()
     dow = check_dow_jones()
+    date_dow = concatenate_date_dow()
+
+    return date_dow, lat, lon
 
 def geohashing():
-    check_args()
-    print("HOOLA!") # DB
-    print(md5_hexdigest("HOOLA!")) # DB
-    """
-    """
+    date_dow, lat, lon = check_args()
+    antigravity.geohash(lat, lon, date_dow)
+
 
 if __name__ == '__main__':
     try:
