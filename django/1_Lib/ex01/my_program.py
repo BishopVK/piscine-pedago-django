@@ -1,27 +1,43 @@
-"""
-Características clave de pathlib: 
-    Creación de rutas: p = Path('carpeta/archivo.txt')
-    Obtener directorio actual: Path.cwd()
-    Manipulación: .name (nombre del archivo), .stem (nombre sin extensión), .suffix (extensión), .parent (directorio padre).
-    Verificación: .exists(), .is_file(), .is_dir().
-    Operaciones: .mkdir(), .rename(), .unlink() (eliminar).
+from path import Path
 
-Ejemplo de uso:
-    from pathlib import Path
+def create_and_display():
+    # Definimos la ruta de la carpeta y el archivo
+    folder = Path("folder")
 
-    # Crear una ruta
-    ruta = Path("documentos/informe.pdf")
+    # Creamos la carpeta si no existe
+    if not folder.exists():
+        folder.mkdir()
 
-    print(f"Nombre: {ruta.name}")       # informe.pdf
-    print(f"Extensión: {ruta.suffix}")  # .pdf
-    print(f"Padre: {ruta.parent}")      # documentos
-"""
+    # Definimos el archivo dentro de la carpeta
+    filename = folder / "file.txt"
 
-from pathlib import Path
+    # Escribimos contenido
+    filename.write_text("En un lugar de la mancha, de cuyo nombre no quiero acordarme... 😉")
 
-# Crear una ruta
-ruta = Path("documentos/informe.pdf")
+    # Leemos y mostramos el contenido
+    content = filename.read_text()
+    print(content)
 
-print(f"Nombre: {ruta.name}")       # informe.pdf
-print(f"Extensión: {ruta.suffix}")  # .pdf
-print(f"Padre: {ruta.parent}")      # documentos
+def cleanup():
+    """
+    Limpia el entorno tras la defensa eliminando archivos y carpetas.
+    """
+    targets = [
+        Path("local_lib"),
+        Path("folder"),
+        Path("install.log")
+    ]
+
+    for item in targets:
+        if item.exists():
+            if item.is_dir():
+                item.rmtree_p()
+            else:
+                item.remove_p()
+            print(f"Eliminado: {item}")
+
+if __name__ == "__main__":
+    create_and_display()
+
+    # Descomenta la siguiente línea tras la defensa:
+    # cleanup()
