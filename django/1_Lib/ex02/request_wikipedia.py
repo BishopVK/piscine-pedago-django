@@ -4,7 +4,7 @@ import dewiki
 import requests
 
 def request_wikipedia():
-    if len(sys.argv) != 2:
+    if len(sys.argv) != 2 or len(sys.argv[1]) == 0:
         print("Usage error. Correct Use: python3 request_wikipedia.py 'string'")
         sys.exit(1)
 
