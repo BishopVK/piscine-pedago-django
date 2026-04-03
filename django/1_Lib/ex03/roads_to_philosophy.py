@@ -27,45 +27,58 @@ def find_in_wikipedia(input_raw, input_search):
     }
 
     # roads = { input_raw : url }
-    roads = { url : input_raw }
+    # roads = { url : input_raw }
+    visited_titles = []
+    visited_urls = []
+
 
     while not is_dead_end and not is_infinity_loop and not is_philosophy:
-        response = requests.get(url, headers=headers)
+        try:
+            response = requests.get(url, headers=headers)
+        except Exception as e:
+            print(f"Error: {e}")
+            sys.exit(1)
 
         if response.status_code != 200:
             # print(response.status_code) # DB
-            print("Error fetching data")
+            print("It leads to a dead end !")
             sys.exit(1)
 
-        if not response.text:
-            print("Error: what is this word {} which does not exist?".format(input_search))
-            sys.exit(1)
-
+        if response.url in visited_urls:
+            print("It leads to an infinite loop !")
+            return # Salimos de la función
+        visited_urls.append(response.url)
 
         soup = BeautifulSoup(response.content, 'html.parser')
-        print(f"H1 ==> {soup.find('h1')}")
+
+        current_title = soup.find('h1', id="firstHeading").get_text()
+        print(current_title) # DB
+        visited_titles.append(current_title)
+
+        if current_title == "Philosophy":
+            is_philosophy = True
+            break
 
         soup = soup.find_all('p')
+        # print(f"soup => {soup}") # DB
         for p in soup:
             # 1. ¿El párrafo está vacío? Saltamos al siguiente
             # if not p.get_text(strip=True) or p.find_parent("div", class_="hatnote") != None:
             if not p.get_text(strip=True) or not p.find('b'):
                 continue
 
+            print(f"p => {p}") # DB
+            
             # 2. Si llegamos aquí, este párrafo tiene texto.
             # Vamos a buscar los enlaces que hay DENTRO de este párrafo
             links_in_p = p.find_all('a')
             if not links_in_p:
-                # roads["It leads to a dead end !"] = "dead_end"
-                roads["dead_end"] = "It leads to a dead end !"
                 # print("It leads to a dead end !")
+                visited_titles.append("It leads to a dead end !")
                 is_dead_end = True
                 break
             
             for link in links_in_p:
-                # Aquí es donde ocurre la magia:
-                # 'link' es un objeto. Puedo sacar su texto y su destino (href)
-                link_text = link.get_text()
                 destiny = str(link.get('href'))
 
                 if destiny.startswith("/wiki/") \
@@ -75,28 +88,27 @@ def find_in_wikipedia(input_raw, input_search):
                 or destiny.startswith("/wiki/File") \
                 or destiny.startswith("/wiki/Wikipedia:Citation_needed") \
                 or destiny.startswith("//upload.wikimedia.org/")):
-                    if (wikipedia_url + destiny) in roads:
+                    if (wikipedia_url + destiny) in visited_urls:
                         # roads["It leads to an infinite loop !"] = "infinite_loop"
-                        roads["infinite_loop"] = "It leads to an infinite loop !"
+                        # roads["infinite_loop"] = "It leads to an infinite loop !"
                         is_infinity_loop = True
                         break
-                    # roads[link_text] = wikipedia_url + destiny
-                    roads[wikipedia_url + destiny] = link_text
                     url = wikipedia_url + destiny
                 else:
                     continue
 
-                print(f"Link: {destiny}") # DB
-                print(roads) # DB
+                """ print(f"Link: {destiny}") # DB
+                print(visited_titles) # DB
+                print(visited_urls) # DB """
                 break
-                
+
             # Detener tras encontrar el primer párrafo
             break
 
-    for road in roads:
-        print(roads[road])
+    for titles in visited_titles:
+        print(titles)
     if is_philosophy:
-        print(f"{len(roads)} roads from {input_raw} to philosophy")
+        print(f"{len(visited_titles)} roads from {input_raw} to philosophy")
 
 
 def roads_to_philosophy():
