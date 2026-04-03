@@ -52,7 +52,7 @@ def find_in_wikipedia(input_raw, input_search):
         soup = BeautifulSoup(response.content, 'html.parser')
 
         current_title = soup.find('h1', id="firstHeading").get_text()
-        print(current_title) # DB
+        # print(current_title) # DB
         visited_titles.append(current_title)
 
         if current_title == "Philosophy":
@@ -64,10 +64,13 @@ def find_in_wikipedia(input_raw, input_search):
         for p in soup:
             # 1. ¿El párrafo está vacío? Saltamos al siguiente
             # if not p.get_text(strip=True) or p.find_parent("div", class_="hatnote") != None:
+            if p.find_parent('table') or p.find_parent('div', class_='sidebar'):
+                continue
+
             if not p.get_text(strip=True) or not p.find('b'):
                 continue
 
-            print(f"p => {p}") # DB
+            # print(f"p => {p}") # DB
             
             # 2. Si llegamos aquí, este párrafo tiene texto.
             # Vamos a buscar los enlaces que hay DENTRO de este párrafo
@@ -91,6 +94,7 @@ def find_in_wikipedia(input_raw, input_search):
                     if (wikipedia_url + destiny) in visited_urls:
                         # roads["It leads to an infinite loop !"] = "infinite_loop"
                         # roads["infinite_loop"] = "It leads to an infinite loop !"
+                        visited_titles.append("It leads to an infinite loop !")
                         is_infinity_loop = True
                         break
                     url = wikipedia_url + destiny
